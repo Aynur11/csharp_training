@@ -66,6 +66,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AccountData.cs" />
+    <Compile Include="AddressBookCreationTests.cs" />
+    <Compile Include="AddressBookEntryData.cs" />
+    <Compile Include="Authorization.cs" />
     <Compile Include="GroupData.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

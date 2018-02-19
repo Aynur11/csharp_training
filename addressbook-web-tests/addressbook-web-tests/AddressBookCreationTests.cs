@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -9,8 +7,9 @@ using OpenQA.Selenium.Support.UI;
 
 namespace addressbook_web_tests
 {
+
     [TestFixture]
-    public class GroupCreationTests
+    public class AddressBookCreationTests
     {
         private IWebDriver driver;
         private StringBuilder verificationErrors;
@@ -43,60 +42,35 @@ namespace addressbook_web_tests
         }
 
         [Test]
-        public void GroupCreationTest()
+        public void AddressBookCreationTest()
         {
             Authorization authorization = new Authorization(driver, new AccountData("admin", "secret"));
-            OpenHomePage();
+            AddressBookEntryData entryData = new AddressBookEntryData("Ivan", "Ivanov");
+            GoToHomePage();
             authorization.Login();
-            GoToGroupsPage();
-            InitGrouptCreation();
-            GroupData group = new GroupData("some_group");
-            group.Header = "some_header";
-            group.Footer = "some_footer";
-            FillGroupForm(group);
-            SubmitGroupCreation();
-            ReturnToGroupsPage();
+            InitNewEntry();
+            FillEntry(entryData);
+            GoToHomePage();
             authorization.Logout();
         }
 
-        private void Logout()
+        private void GoToHomePage()
         {
-            driver.FindElement(By.LinkText("Logout")).Click();
+            driver.Navigate().GoToUrl(baseURL + "addressbook/");
         }
 
-        private void ReturnToGroupsPage()
+        private void FillEntry(AddressBookEntryData entryData)
         {
-            driver.FindElement(By.LinkText("group page")).Click();
-        }
-
-        private void SubmitGroupCreation()
-        {
+            driver.FindElement(By.Name("firstname")).Clear();
+            driver.FindElement(By.Name("firstname")).SendKeys(entryData.Firstname);
+            driver.FindElement(By.Name("lastname")).Clear();
+            driver.FindElement(By.Name("lastname")).SendKeys(entryData.Lastname);
             driver.FindElement(By.Name("submit")).Click();
         }
 
-        private void FillGroupForm(GroupData group)
+        private void InitNewEntry()
         {
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
-        }
-
-        private void InitGrouptCreation()
-        {
-            driver.FindElement(By.Name("new")).Click();
-        }
-
-        private void GoToGroupsPage()
-        {
-            driver.FindElement(By.LinkText("groups")).Click();
-        }
-        
-        private void OpenHomePage()
-        {
-            driver.Navigate().GoToUrl(baseURL + "addressbook/");
+            driver.FindElement(By.LinkText("add new")).Click();
         }
 
         private bool IsElementPresent(By by)

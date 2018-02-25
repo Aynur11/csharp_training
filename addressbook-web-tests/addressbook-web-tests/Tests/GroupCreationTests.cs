@@ -15,18 +15,18 @@ namespace addressbook_web_tests
         [Test]
         public void GroupCreationTest()
         {
-            Authorization authorization = new Authorization(driver, new AccountData("admin", "secret"));
-            GoToHomePage();
-            authorization.Login();
-            GoToGroupsPage();
-            InitGrouptCreation();
+            
+            manager.Navigator.GoToHomePage();
+            manager.Auth.Login();
+            manager.Navigator.GoToGroupsPage();
+            manager.Groups.InitGrouptCreation();
             GroupData group = new GroupData("some_group");
             group.Header = "some_header";
             group.Footer = "some_footer";
-            FillGroupForm(group);
-            SubmitGroupCreation();
-            ReturnToGroupsPage();
-            authorization.Logout();
+            manager.Groups.FillGroupForm(group);
+            manager.Groups.SubmitGroupCreation();
+            manager.Groups.ReturnToGroupsPage();
+            manager.Auth.Logout();
         }
     }
 }

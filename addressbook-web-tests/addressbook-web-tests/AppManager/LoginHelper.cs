@@ -5,13 +5,12 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 namespace addressbook_web_tests
 {
-    class Authorization
+    public class LoginHelper : HelperBase
     {
-        private IWebDriver driver;
         private AccountData account;
-        public Authorization(IWebDriver driver, AccountData account)
+        public LoginHelper(IWebDriver driver, AccountData account)
+            : base(driver)
         {
-            this.driver = driver;
             this.account = account;
         }
         public void Login()

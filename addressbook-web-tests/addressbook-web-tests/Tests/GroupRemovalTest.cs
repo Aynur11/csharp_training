@@ -14,10 +14,7 @@ namespace addressbook_web_tests
         {
             manager.Navigator.GoToHomePage();
             manager.Auth.Login();
-            manager.Navigator.GoToGroupsPage();
-            manager.Groups.SelectGroup(1);
-            manager.Groups.RemoveGroup(1);
-            manager.Groups.ReturnToGroupsPage();
+            manager.Groups.Remove(1);
             manager.Auth.Logout();
         }
     }

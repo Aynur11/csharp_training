@@ -8,23 +8,23 @@ namespace addressbook_web_tests
     public class LoginHelper : HelperBase
     {
         private AccountData account;
-        public LoginHelper(IWebDriver driver, AccountData account)
-            : base(driver)
+        public LoginHelper(ApplicationManager manager, AccountData account)
+            : base(manager)
         {
             this.account = account;
         }
         public void Login()
         {
-            driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys(account.Username);
-            driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys(account.Password);
-            driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
+            manager.Driver.FindElement(By.Name("user")).Clear();
+            manager.Driver.FindElement(By.Name("user")).SendKeys(account.Username);
+            manager.Driver.FindElement(By.Name("pass")).Clear();
+            manager.Driver.FindElement(By.Name("pass")).SendKeys(account.Password);
+            manager.Driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
         }
 
         public void Logout()
         {
-            driver.FindElement(By.LinkText("Logout")).Click();
+            manager.Driver.FindElement(By.LinkText("Logout")).Click();
         }
 
     }

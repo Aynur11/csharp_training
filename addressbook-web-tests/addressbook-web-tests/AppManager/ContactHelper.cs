@@ -24,5 +24,26 @@ namespace addressbook_web_tests
             driver.FindElement(By.Name("submit")).Click();
             return this;
         }
+
+        public ContactHelper Remove(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContact(index);
+            RemoveContact();
+            return this;
+        }
+
+        public ContactHelper SelectContact(int index)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            return this;
+        }
+
+        public ContactHelper RemoveContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            driver.SwitchTo().Alert().Accept();
+            return this;
+        }
     }
 }

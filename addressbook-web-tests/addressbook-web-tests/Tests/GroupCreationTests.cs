@@ -15,27 +15,19 @@ namespace addressbook_web_tests
         [Test]
         public void GroupCreationTest()
         {
-            
-            manager.Navigator.GoToHomePage();
-            manager.Auth.Login();
             GroupData group = new GroupData("some_group");
             group.Header = "some_header";
             group.Footer = "some_footer";
             manager.Groups.Create(group);
-            manager.Auth.Logout();
         }
 
         [Test]
         public void EmptyGroupCreationTest()
         {
-
-            manager.Navigator.GoToHomePage();
-            manager.Auth.Login();
             GroupData group = new GroupData("");
             group.Header = "";
             group.Footer = "";
             manager.Groups.Create(group);
-            manager.Auth.Logout();
         }
     }
 }

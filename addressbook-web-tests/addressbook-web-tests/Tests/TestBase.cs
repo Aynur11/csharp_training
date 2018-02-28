@@ -12,6 +12,8 @@ namespace addressbook_web_tests
         public void SetupTest()
         {
             manager = new ApplicationManager();
+            manager.Navigator.GoToHomePage();
+            manager.Auth.Login();
         }
 
         [TearDown]

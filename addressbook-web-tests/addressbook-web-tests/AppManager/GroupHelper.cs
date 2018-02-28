@@ -19,7 +19,7 @@ namespace addressbook_web_tests
             ReturnToGroupsPage();
             return this;
         }
-
+        
         public GroupHelper Remove(int index)
         {
             manager.Navigator.GoToGroupsPage();

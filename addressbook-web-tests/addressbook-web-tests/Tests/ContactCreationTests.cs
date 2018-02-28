@@ -15,13 +15,10 @@ namespace addressbook_web_tests
         public void ContactCreationTest()
         {
             ContactData entryData = new ContactData("Ivan", "Ivanov");
-            manager.Navigator.GoToHomePage();
-            manager.Auth.Login();
             manager.Contacts
                 .InitNewContact()
                 .FillContact(entryData);
             manager.Navigator.GoToHomePage();
-            manager.Auth.Logout();
         }
     }
 }

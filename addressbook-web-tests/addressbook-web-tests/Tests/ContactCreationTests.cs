@@ -15,11 +15,7 @@ namespace addressbook_web_tests
         public void ContactCreationTest()
         {
             ContactData entryData = new ContactData("Ivan", "Ivanov");
-            manager.Contacts
-                .InitNewContact()
-                .FillContact(entryData)
-                .SubmitContactCreation();
-            manager.Navigator.GoToHomePage();
+            manager.Contacts.Create(entryData);
         }
     }
 }

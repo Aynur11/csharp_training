@@ -9,26 +9,42 @@ namespace addressbook_web_tests
         {
         }
 
-        public ContactHelper InitNewContact()
+        public ContactHelper Create(ContactData data)
         {
-           driver.FindElement(By.LinkText("add new")).Click();
+            manager.Navigator.GoToHomePage();
+            InitNewContact();
+            FillContact(data);
+            SubmitContactCreation();
+            manager.Navigator.GoToHomePage();
             return this;
         }
 
         public ContactHelper Modify(int index, ContactData contactData)
         {
             manager.Navigator.GoToHomePage();
-            manager.Contacts.SelectContact(index);
-            manager.Contacts.InitContactModification();
-            manager.Contacts.FillContact(contactData);
-            manager.Contacts.SubmitContactModification();
+            SelectContact(index);
+            InitContactModification();
+            FillContact(contactData);
+            SubmitContactModification();
             manager.Navigator.GoToHomePage();
             return this;
         }
 
+        public ContactHelper InitNewContact()
+        {
+           driver.FindElement(By.LinkText("add new")).Click();
+            return this;
+        }
+        
         private ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public ContactHelper SubmitContactCreation()
+        {
+            driver.FindElement(By.XPath("//input[@name='submit']")).Click();
             return this;
         }
 
@@ -46,13 +62,7 @@ namespace addressbook_web_tests
             driver.FindElement(By.Name("lastname")).SendKeys(entryData.Lastname);
             return this;
         }
-
-        public ContactHelper SubmitContactCreation()
-        {
-            driver.FindElement(By.XPath("//input[@name='update']")).Click();
-            return this;
-        }
-
+        
         public ContactHelper Remove(int index)
         {
             manager.Navigator.GoToHomePage();

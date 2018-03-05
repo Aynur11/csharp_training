@@ -28,7 +28,7 @@ namespace addressbook_web_tests
 
         private ContactHelper SubmitContactModification()
         {
-            driver.FindElement(By.XPath("(//input[@name='update'])")).Click();
+            driver.FindElement(By.Name("update")).Click();
             return this;
         }
 
@@ -44,7 +44,12 @@ namespace addressbook_web_tests
             driver.FindElement(By.Name("firstname")).SendKeys(entryData.Firstname);
             driver.FindElement(By.Name("lastname")).Clear();
             driver.FindElement(By.Name("lastname")).SendKeys(entryData.Lastname);
-            driver.FindElement(By.Name("submit")).Click();
+            return this;
+        }
+
+        public ContactHelper SubmitContactCreation()
+        {
+            driver.FindElement(By.XPath("//input[@name='update']")).Click();
             return this;
         }
 

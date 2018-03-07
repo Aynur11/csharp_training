@@ -34,7 +34,7 @@ namespace addressbook_web_tests
             contactHelper = new ContactHelper(this);
         }
 
-        public ~ApplicationManager()
+        ~ApplicationManager()
         {
             try
             {

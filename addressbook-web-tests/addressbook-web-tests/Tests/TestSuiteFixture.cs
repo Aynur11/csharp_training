@@ -12,10 +12,5 @@ namespace addressbook_web_tests
             manager.Navigator.GoToHomePage();
             manager.Auth.Login();
         }
-        [TearDown]
-        public void StopApplicationManager()
-        {
-            ApplicationManager.GetInstance().Stop();
-        }
     }
 }

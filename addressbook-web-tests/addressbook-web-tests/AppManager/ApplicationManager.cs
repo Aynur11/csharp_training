@@ -34,15 +34,7 @@ namespace addressbook_web_tests
             contactHelper = new ContactHelper(this);
         }
 
-        public static ApplicationManager GetInstance()
-        {
-            if (!manager.IsValueCreated)
-            {
-                manager.Value = new ApplicationManager();
-            }
-            return manager.Value;
-        }
-        public void Stop()
+        public ~ApplicationManager()
         {
             try
             {
@@ -52,6 +44,15 @@ namespace addressbook_web_tests
             {
                 // Ignore errors if unable to close the browser
             }
+        }
+
+        public static ApplicationManager GetInstance()
+        {
+            if (!manager.IsValueCreated)
+            {
+                manager.Value = new ApplicationManager();
+            }
+            return manager.Value;
         }
 
         public LoginHelper Auth

@@ -10,7 +10,7 @@ namespace addressbook_web_tests.Tests
         public void GroupModoficationTest()
         {
             GroupData newData = new GroupData("modifiedname");
-            newData.Header = "modHeader";
+            newData.Header = null;
             newData.Footer = "modFooter";
             manager.Groups.Modify(2, newData);
         }

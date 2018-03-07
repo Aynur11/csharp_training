@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Text;
 using NUnit.Framework;
+using System.Threading;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Support.UI;
+
 
 namespace addressbook_web_tests
 {
@@ -16,8 +18,9 @@ namespace addressbook_web_tests
         protected NavigationHelper navigator;
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
+        private static ThreadLocal<ApplicationManager> manager = new ThreadLocal<ApplicationManager>();
 
-        public ApplicationManager()
+        private ApplicationManager()
         {
             FirefoxOptions options = new FirefoxOptions();
             options.UseLegacyImplementation = true;
@@ -31,6 +34,14 @@ namespace addressbook_web_tests
             contactHelper = new ContactHelper(this);
         }
 
+        public static ApplicationManager GetInstance()
+        {
+            if (!manager.IsValueCreated)
+            {
+                manager.Value = new ApplicationManager();
+            }
+            return manager.Value;
+        }
         public void Stop()
         {
             try

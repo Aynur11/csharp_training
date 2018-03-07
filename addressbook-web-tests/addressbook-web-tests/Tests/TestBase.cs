@@ -11,16 +11,8 @@ namespace addressbook_web_tests
         [SetUp]
         public void SetupTest()
         {
-            manager = new ApplicationManager();
-            manager.Navigator.GoToHomePage();
-            manager.Auth.Login();
-        }
+            manager = ApplicationManager.GetInstance();
 
-        [TearDown]
-        public void TeardownTest()
-        {
-            manager.Stop();
         }
-        
     }
 }

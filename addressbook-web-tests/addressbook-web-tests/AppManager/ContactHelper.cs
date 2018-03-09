@@ -22,8 +22,7 @@ namespace addressbook_web_tests
         public ContactHelper Modify(int index, ContactData contactData)
         {
             manager.Navigator.GoToHomePage();
-            SelectContact(index);
-            InitContactModification();
+            InitContactModification(index);
             FillContact(contactData);
             SubmitContactModification();
             manager.Navigator.GoToHomePage();
@@ -48,9 +47,9 @@ namespace addressbook_web_tests
             return this;
         }
 
-        private ContactHelper InitContactModification()
+        private ContactHelper InitContactModification(int index)
         {
-            driver.FindElement(By.CssSelector("img[alt=\"Edit\"]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();
             return this;
         }
 

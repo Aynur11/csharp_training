@@ -9,7 +9,7 @@ namespace addressbook_web_tests.Tests
         [Test]
         public void ContactModificationTest()
         {
-            ContactData contactData = new ContactData("Sergey", "Sergeev");
+            ContactData contactData = new ContactData("Ivan", "Ivanov");
             manager.Contacts.Modify(1, contactData);
         }
     }

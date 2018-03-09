@@ -28,12 +28,12 @@ namespace addressbook_web_tests
             driver = new FirefoxDriver(options);
             baseURL = "http://localhost";
 
-            loginHelper = new LoginHelper(this, new AccountData("admin", "secret"));
+            loginHelper = new LoginHelper(this);
             navigator = new NavigationHelper(this, baseURL);
             groupHelper = new GroupHelper(this);
             contactHelper = new ContactHelper(this);
         }
-
+        
         ~ApplicationManager()
         {
             try
@@ -50,7 +50,10 @@ namespace addressbook_web_tests
         {
             if (!manager.IsValueCreated)
             {
-                manager.Value = new ApplicationManager();
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Navigator.GoToHomePage();
+                manager.Value = newInstance;
+                
             }
             return manager.Value;
         }

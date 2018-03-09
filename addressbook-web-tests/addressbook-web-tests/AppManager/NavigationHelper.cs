@@ -16,14 +16,16 @@ namespace addressbook_web_tests
             this.baseURL = baseURL;
         }
 
-        public void GoToGroupsPage()
-        {
-            driver.FindElement(By.LinkText("groups")).Click();
-        }
-
         public void GoToHomePage()
         {
-            driver.Navigate().GoToUrl(baseURL + "/addressbook/");
+            if (driver.Url != baseURL + "/addressbook/")
+                driver.Navigate().GoToUrl(baseURL + "/addressbook/");
+        }
+
+        public void GoToGroupsPage()
+        {
+            if (driver.Url != baseURL + "/addressbook/group.php" && !IsElementPresent(By.Name("new")))
+            driver.FindElement(By.LinkText("groups")).Click();
         }
     }
 }

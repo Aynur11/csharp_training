@@ -22,6 +22,7 @@ namespace addressbook_web_tests
         public ContactHelper Modify(int index, ContactData contactData)
         {
             manager.Navigator.GoToHomePage();
+            CreateContactIfNotExists(index);
             InitContactModification(index);
             FillContact(contactData);
             SubmitContactModification();
@@ -63,11 +64,18 @@ namespace addressbook_web_tests
         public ContactHelper Remove(int index)
         {
             manager.Navigator.GoToHomePage();
+            CreateContactIfNotExists(index);
             SelectContact(index);
             RemoveContact();
             return this;
         }
 
+        public ContactHelper CreateContactIfNotExists(int index)
+        {
+            while (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]")))
+                Create(new ContactData("NewFirstname", "NewLastname"));
+            return this;
+        }
         public ContactHelper SelectContact(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();

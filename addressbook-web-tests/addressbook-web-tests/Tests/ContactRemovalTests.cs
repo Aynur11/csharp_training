@@ -9,7 +9,7 @@ namespace addressbook_web_tests.Tests
         [Test]
         public void ContactRemovalTest()
         {
-            manager.Contacts.Remove(1);
+            manager.Contacts.Remove(3);
         }
     }
 }

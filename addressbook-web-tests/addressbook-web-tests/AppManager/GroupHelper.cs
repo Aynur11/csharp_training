@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 
 namespace addressbook_web_tests
@@ -23,6 +24,7 @@ namespace addressbook_web_tests
         public GroupHelper Modify(int index, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
+            CreateGroupIfNotExists(index);
             SelectGroup(index);
             InitGroupModofication();
             FillGroupForm(newData);
@@ -31,6 +33,34 @@ namespace addressbook_web_tests
             return this;
         }
 
+        public GroupHelper Remove(int index)
+        {
+            manager.Navigator.GoToGroupsPage();
+            CreateGroupIfNotExists(index);
+            SelectGroup(index);
+            RemoveGroup(index);
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        public List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            manager.Navigator.GoToGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.XPath("(//span[@class='group'])"));
+            foreach(IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));
+            }
+            return groups;
+        }
+
+        public GroupHelper CreateGroupIfNotExists(int index)
+        {
+            while (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]")))
+                Create(new GroupData("NewGroupName"));
+            return this;
+        }
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
@@ -42,15 +72,6 @@ namespace addressbook_web_tests
             driver.FindElement(By.Name("edit")).Click();
             return this;
         }
-
-        public GroupHelper Remove(int index)
-        {
-            manager.Navigator.GoToGroupsPage();
-            SelectGroup(index);
-            RemoveGroup(index);
-            ReturnToGroupsPage();
-            return this;
-    }
 
         public GroupHelper ReturnToGroupsPage()
         {
@@ -80,7 +101,7 @@ namespace addressbook_web_tests
 
         public GroupHelper RemoveGroup(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='delete'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='delete'])")).Click();
             return this;
         }
 

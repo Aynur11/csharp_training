@@ -12,7 +12,7 @@ namespace addressbook_web_tests
         [Test]
         public void GroupRemovalTest()
         {
-            manager.Groups.Remove(1);
+            manager.Groups.Remove(2);
         }
     }
 }

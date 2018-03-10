@@ -12,7 +12,7 @@ namespace addressbook_web_tests.Tests
             GroupData newData = new GroupData("modifiedname");
             newData.Header = null;
             newData.Footer = "modFooter";
-            manager.Groups.Modify(2, newData);
+            manager.Groups.Modify(4, newData);
         }
     }
 }

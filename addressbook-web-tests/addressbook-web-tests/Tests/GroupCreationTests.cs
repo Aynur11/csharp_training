@@ -23,7 +23,10 @@ namespace addressbook_web_tests
             List<GroupData> oldGroups = manager.Groups.GetGroupList();
             manager.Groups.Create(group);
             List<GroupData> newGroups = manager.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            //Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+
+            oldGroups.Add(group);
+            Assert.AreEqual(oldGroups, newGroups);
         }
 
         [Test]
@@ -36,7 +39,10 @@ namespace addressbook_web_tests
             List<GroupData> oldGroups = manager.Groups.GetGroupList();
             manager.Groups.Create(group);
             List<GroupData> newGroups = manager.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            //Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+
+            oldGroups.Add(group);
+            Assert.AreEqual(oldGroups, newGroups);
         }
 
         [Test]
@@ -49,7 +55,10 @@ namespace addressbook_web_tests
             List<GroupData> oldGroups = manager.Groups.GetGroupList();
             manager.Groups.Create(group);
             List<GroupData> newGroups = manager.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            //Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+
+            oldGroups.Add(group);
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace addressbook_web_tests.Tests
@@ -9,6 +10,8 @@ namespace addressbook_web_tests.Tests
         [Test]
         public void ContactModificationTest()
         {
+            List<ContactData> oldContacts = manager.Contacts.GetContactsList();
+
             ContactData contactData = new ContactData("Ivan", "Ivanov");
             manager.Contacts.Modify(5, contactData); 
         }

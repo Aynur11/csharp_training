@@ -60,5 +60,11 @@ namespace addressbook_web_tests
                 return true;
             return Name == other.Name;
         }
+
+        public int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 
 namespace addressbook_web_tests
@@ -17,6 +18,20 @@ namespace addressbook_web_tests
             SubmitContactCreation();
             manager.Navigator.GoToHomePage();
             return this;
+        }
+
+        internal List<ContactData> GetContactsList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.GoToHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.XPath("(//tr[@name='entry'])"));
+            string[] s;
+            foreach (IWebElement element in elements)
+            {
+                s = element.Text.Split(' ');
+                contacts.Add(new ContactData(s[0], s[1]));
+            }
+            return contacts;
         }
 
         public ContactHelper Modify(int index, ContactData contactData)

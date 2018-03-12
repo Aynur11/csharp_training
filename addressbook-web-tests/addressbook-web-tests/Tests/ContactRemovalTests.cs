@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace addressbook_web_tests.Tests
@@ -9,7 +10,14 @@ namespace addressbook_web_tests.Tests
         [Test]
         public void ContactRemovalTest()
         {
-            manager.Contacts.Remove(3);
+            List<ContactData> oldContacts = manager.Contacts.GetContactsList();
+            if (oldContacts.Count != 0)
+            {
+                manager.Contacts.Remove(3);
+                List<ContactData> newContacts = manager.Contacts.GetContactsList();
+                oldContacts.RemoveAt(2);
+                Assert.AreEqual(oldContacts, newContacts);
+            }
         }
     }
 }

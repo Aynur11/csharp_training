@@ -13,13 +13,9 @@ namespace addressbook_web_tests.Tests
             List<ContactData> oldContacts = manager.Contacts.GetContactsList();
             if (oldContacts.Count != 0)
             {
-                manager.Contacts.Remove(3);
+                manager.Contacts.Remove(1);
                 List<ContactData> newContacts = manager.Contacts.GetContactsList();
-                oldContacts.RemoveAt(2);
-                //foreach(ContactData contact in oldContacts)
-                //{
-                //    Console.WriteLine("{0}, {1}", contact.Firstname, contact.Lastname);
-                //}
+                oldContacts.RemoveAt(0);
                 Assert.AreEqual(oldContacts, newContacts);
             }
         }

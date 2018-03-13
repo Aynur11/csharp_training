@@ -29,7 +29,9 @@ namespace addressbook_web_tests
             foreach (IWebElement element in elements)
             {
                 s = element.Text.Split(' ');
-                contacts.Add(new ContactData(s[0], s[1]));
+                //Console.WriteLine(s[1]);
+                //Console.WriteLine(s[0]);
+                contacts.Add(new ContactData(s[1], s[0]));
             }
             return contacts;
         }

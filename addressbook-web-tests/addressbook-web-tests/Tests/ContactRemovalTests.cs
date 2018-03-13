@@ -16,6 +16,10 @@ namespace addressbook_web_tests.Tests
                 manager.Contacts.Remove(3);
                 List<ContactData> newContacts = manager.Contacts.GetContactsList();
                 oldContacts.RemoveAt(2);
+                //foreach(ContactData contact in oldContacts)
+                //{
+                //    Console.WriteLine("{0}, {1}", contact.Firstname, contact.Lastname);
+                //}
                 Assert.AreEqual(oldContacts, newContacts);
             }
         }

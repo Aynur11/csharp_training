@@ -66,12 +66,13 @@ namespace addressbook_web_tests
                 return false;
             if (Object.ReferenceEquals(this, other))
                 return true;
-            return Firstname == other.Firstname && Lastname == other.Lastname;
+            return Firstname == other.Firstname;
+                //&& Lastname == other.Lastname;
         }
 
         public int GetHashCode()
         {
-            //return (Lastname + Firstname).GetHashCode();
+            //return Lastname.GetHashCode() + Firstname.GetHashCode();
             return 0;
         }
     }

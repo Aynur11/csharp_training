@@ -20,6 +20,8 @@ namespace addressbook_web_tests
             manager.Contacts.Create(entryData);
             List<ContactData> newContacts = manager.Contacts.GetContactsList();
             oldContacts.Add(entryData);
+            oldContacts.Sort();
+            newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
         }
     }

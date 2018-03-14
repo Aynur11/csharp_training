@@ -28,10 +28,14 @@ namespace addressbook_web_tests
             string[] s;
             foreach (IWebElement element in elements)
             {
-                s = element.Text.Split(' ');
-                //Console.WriteLine(s[1]);
-                //Console.WriteLine(s[0]);
-                contacts.Add(new ContactData(s[1], s[0]));
+                var td = element.FindElements(By.TagName("td"));
+                string lastname = td[1].Text;
+                string firstname = td[2].Text;
+
+                //s = element.Text.Split(' ');
+                Console.WriteLine("Lastn: {0}", lastname);
+                Console.WriteLine("Firstn: {0}", firstname);
+                contacts.Add(new ContactData(firstname, lastname));
             }
             return contacts;
         }

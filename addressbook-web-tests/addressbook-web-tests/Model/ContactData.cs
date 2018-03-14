@@ -85,7 +85,7 @@ namespace addressbook_web_tests
             {
                 return 1;
             }
-            return (Firstname.CompareTo(other.Firstname) == 1 && Lastname.CompareTo(other.Lastname) == 1) ? 1 : 0;
+            return Lastname.CompareTo(other.Lastname);
         }
     }
 }

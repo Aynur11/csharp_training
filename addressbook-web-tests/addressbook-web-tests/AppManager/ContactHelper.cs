@@ -25,17 +25,10 @@ namespace addressbook_web_tests
             List<ContactData> contacts = new List<ContactData>();
             manager.Navigator.GoToHomePage();
             ICollection<IWebElement> elements = driver.FindElements(By.XPath("(//tr[@name='entry'])"));
-            string[] s;
             foreach (IWebElement element in elements)
             {
                 var td = element.FindElements(By.TagName("td"));
-                string lastname = td[1].Text;
-                string firstname = td[2].Text;
-
-                //s = element.Text.Split(' ');
-                Console.WriteLine("Lastn: {0}", lastname);
-                Console.WriteLine("Firstn: {0}", firstname);
-                contacts.Add(new ContactData(firstname, lastname));
+                contacts.Add(new ContactData(td[2].Text, td[1].Text));
             }
             return contacts;
         }
@@ -43,7 +36,6 @@ namespace addressbook_web_tests
         public ContactHelper Modify(int index, ContactData contactData)
         {
             manager.Navigator.GoToHomePage();
-            CreateContactIfNotExists(index);
             InitContactModification(index);
             FillContact(contactData);
             SubmitContactModification();
@@ -85,16 +77,8 @@ namespace addressbook_web_tests
         public ContactHelper Remove(int index)
         {
             manager.Navigator.GoToHomePage();
-            CreateContactIfNotExists(index);
             SelectContact(index);
             RemoveContact();
-            return this;
-        }
-
-        public ContactHelper CreateContactIfNotExists(int index)
-        {
-            while (!IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]")))
-                Create(new ContactData("NewFirstname", "NewLastname"));
             return this;
         }
         public ContactHelper SelectContact(int index)

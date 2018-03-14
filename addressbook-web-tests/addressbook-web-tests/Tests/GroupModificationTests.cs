@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenQA.Selenium;
 using NUnit.Framework;
 
 namespace addressbook_web_tests.Tests
@@ -7,15 +8,27 @@ namespace addressbook_web_tests.Tests
     [TestFixture]
     public class GroupModificationTests : AuthTestBase
     {
+        [SetUp]
+        public void BeforeTest()
+        {
+            manager.Navigator.GoToGroupsPage();
+            while (!manager.Groups.IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + 1 + "]")))
+                manager.Groups.Create(new GroupData("NewGroupName"));
+        }
         [Test]
         public void GroupModoficationTest()
         {
-            List<GroupData> oldGroups = manager.Groups.GetGroupList();
             GroupData newData = new GroupData("modifiedname");
             newData.Header = null;
             newData.Footer = "modFooter";
-            manager.Groups.Modify(4, newData);
+
+            List<GroupData> oldGroups = manager.Groups.GetGroupList();
+            manager.Groups.Modify(1, newData);
             List<GroupData> newGroups = manager.Groups.GetGroupList();
+            oldGroups[0].Name = newData.Name;
+
+            oldGroups.Sort();
+            newGroups.Sort();
             Assert.AreEqual(oldGroups.Count, newGroups.Count);
         }
     }

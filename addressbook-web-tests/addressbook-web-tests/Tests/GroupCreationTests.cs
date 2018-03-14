@@ -16,26 +16,17 @@ namespace addressbook_web_tests
         [Test]
         public void GroupCreationTest()
         {
-            GroupData group = new GroupData("Gsome_group");
+            GroupData group = new GroupData("zGsome_group");
             group.Header = "some_header";
             group.Footer = "some_footer";
 
             List<GroupData> oldGroups = manager.Groups.GetGroupList();
             manager.Groups.Create(group);
             List<GroupData> newGroups = manager.Groups.GetGroupList();
-            //Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
-
             oldGroups.Add(group);
-            Console.WriteLine("Печатаем олдгрупп");
-            foreach (GroupData groupold in oldGroups)
-            {
-                Console.WriteLine(groupold.Name);
-            }
-            Console.WriteLine("\nПечатаем ньюгрупп");
-            foreach (GroupData groupnew in newGroups)
-            {
-                Console.WriteLine(groupnew.Name);
-            }
+
+            oldGroups.Sort();
+            newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
         }
 
@@ -49,9 +40,10 @@ namespace addressbook_web_tests
             List<GroupData> oldGroups = manager.Groups.GetGroupList();
             manager.Groups.Create(group);
             List<GroupData> newGroups = manager.Groups.GetGroupList();
-            //Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
-
             oldGroups.Add(group);
+
+            oldGroups.Sort();
+            newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
         }
 
@@ -65,9 +57,10 @@ namespace addressbook_web_tests
             List<GroupData> oldGroups = manager.Groups.GetGroupList();
             manager.Groups.Create(group);
             List<GroupData> newGroups = manager.Groups.GetGroupList();
-            //Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
-
             oldGroups.Add(group);
+
+            oldGroups.Sort();
+            newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
         }
     }

@@ -69,7 +69,7 @@ namespace addressbook_web_tests
             return Firstname == other.Firstname && Lastname == other.Lastname;
         }
 
-        public int GetHashCode()
+        public override int GetHashCode()
         {
             return Lastname.GetHashCode() + Firstname.GetHashCode();
         }

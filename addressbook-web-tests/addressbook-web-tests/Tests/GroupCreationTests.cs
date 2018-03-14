@@ -16,7 +16,7 @@ namespace addressbook_web_tests
         [Test]
         public void GroupCreationTest()
         {
-            GroupData group = new GroupData("some_group");
+            GroupData group = new GroupData("Gsome_group");
             group.Header = "some_header";
             group.Footer = "some_footer";
 
@@ -26,6 +26,16 @@ namespace addressbook_web_tests
             //Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
 
             oldGroups.Add(group);
+            Console.WriteLine("Печатаем олдгрупп");
+            foreach (GroupData groupold in oldGroups)
+            {
+                Console.WriteLine(groupold.Name);
+            }
+            Console.WriteLine("\nПечатаем ньюгрупп");
+            foreach (GroupData groupnew in newGroups)
+            {
+                Console.WriteLine(groupnew.Name);
+            }
             Assert.AreEqual(oldGroups, newGroups);
         }
 

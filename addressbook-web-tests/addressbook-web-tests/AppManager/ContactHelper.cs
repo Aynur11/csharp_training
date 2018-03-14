@@ -25,13 +25,25 @@ namespace addressbook_web_tests
             List<ContactData> contacts = new List<ContactData>();
             manager.Navigator.GoToHomePage();
             ICollection<IWebElement> elements = driver.FindElements(By.XPath("(//tr[@name='entry'])"));
-            string[] s;
+
+            // string[] s;
             foreach (IWebElement element in elements)
             {
-                s = element.Text.Split(' ');
+                ICollection<IWebElement> tdcells =  element.FindElements(By.XPath("(/td)"));
+                string[] s = new string[10];
+                int i = 0;
+                foreach (IWebElement cell in tdcells)
+                {
+                    if (i < 1)
+                    s[i] = cell.Text;
+                    Console.WriteLine(s[i]);
+                    i++;
+                }
+                contacts.Add(new ContactData(s[1], s[0]));
+                //s = element.Text.Split(' ');
                 //Console.WriteLine(s[1]);
                 //Console.WriteLine(s[0]);
-                contacts.Add(new ContactData(s[1], s[0]));
+                //contacts.Add(new ContactData(s[1], s[0]));
             }
             return contacts;
         }

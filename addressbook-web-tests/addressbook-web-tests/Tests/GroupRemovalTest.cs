@@ -25,6 +25,8 @@ namespace addressbook_web_tests
 
             manager.Groups.Remove(1);
 
+            Assert.AreEqual(oldGroups.Count - 1, manager.Groups.GetGroupCount());
+
             List<GroupData> newGroups = manager.Groups.GetGroupList();
             oldGroups.RemoveAt(0);
             Assert.AreEqual(oldGroups, newGroups);

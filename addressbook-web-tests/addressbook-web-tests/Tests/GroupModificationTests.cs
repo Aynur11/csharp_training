@@ -24,6 +24,9 @@ namespace addressbook_web_tests.Tests
 
             List<GroupData> oldGroups = manager.Groups.GetGroupList();
             manager.Groups.Modify(1, newData);
+
+            Assert.AreEqual(oldGroups.Count, manager.Groups.GetGroupCount());
+
             List<GroupData> newGroups = manager.Groups.GetGroupList();
             oldGroups[0].Name = newData.Name;
 

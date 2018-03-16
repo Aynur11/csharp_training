@@ -16,12 +16,17 @@ namespace addressbook_web_tests
         public void ContactCreationTest()
         {
             List<ContactData> oldContacts = manager.Contacts.GetContactsList();
-            ContactData entryData = new ContactData("Ivan", "Ivanov");
+            ContactData entryData = new ContactData("gIvan", "glumDIvanov");
             manager.Contacts.Create(entryData);
             List<ContactData> newContacts = manager.Contacts.GetContactsList();
+
+            Assert.AreEqual(oldContacts.Count + 1, manager.Contacts.GetContactCount());
+
             oldContacts.Add(entryData);
+          
             oldContacts.Sort();
             newContacts.Sort();
+            
             Assert.AreEqual(oldContacts, newContacts);
         }
     }

@@ -22,6 +22,9 @@ namespace addressbook_web_tests.Tests
             List<ContactData> oldContacts = manager.Contacts.GetContactsList();
             ContactData contactData = new ContactData("bTest", "bTestov");
             manager.Contacts.Modify(1, contactData);
+
+            Assert.AreEqual(oldContacts.Count, manager.Contacts.GetContactCount());
+
             List<ContactData> newContacts = manager.Contacts.GetContactsList();
             oldContacts[0].Lastname = contactData.Lastname;
             oldContacts[0].Firstname = contactData.Firstname;

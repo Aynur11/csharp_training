@@ -11,6 +11,7 @@ namespace addressbook_web_tests
         {
         }
 
+        private List<GroupData> groupChache = null;
         public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
@@ -45,14 +46,22 @@ namespace addressbook_web_tests
 
         public List<GroupData> GetGroupList()
         {
-            List<GroupData> groups = new List<GroupData>();
-            manager.Navigator.GoToGroupsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.XPath("(//span[@class='group'])"));
-            foreach(IWebElement element in elements)
+            if (groupChache == null)
             {
-                groups.Add(new GroupData(element.Text));
+                groupChache = new List<GroupData>();
+                manager.Navigator.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.XPath("(//span[@class='group'])"));
+                foreach (IWebElement element in elements)
+                {
+                    groupChache.Add(new GroupData(element.Text));
+                }
             }
-            return groups;
+            return new List<GroupData>(groupChache);
+        }
+
+        public int GetGroupCount()
+        {
+            return driver.FindElements(By.XPath("(//span[@class='group'])")).Count;
         }
 
         //public GroupHelper CreateGroupIfNotExists(int index)
@@ -64,6 +73,7 @@ namespace addressbook_web_tests
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            groupChache = null;
             return this;
         }
 
@@ -82,6 +92,7 @@ namespace addressbook_web_tests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            groupChache = null;
             return this;
         }
 
@@ -102,6 +113,7 @@ namespace addressbook_web_tests
         public GroupHelper RemoveGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='delete'])")).Click();
+            groupChache = null;
             return this;
         }
 

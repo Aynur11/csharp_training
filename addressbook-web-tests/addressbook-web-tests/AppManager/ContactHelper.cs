@@ -9,7 +9,7 @@ namespace addressbook_web_tests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
-
+        private List<ContactData> contactCache = null;
         public ContactHelper Create(ContactData data)
         {
             manager.Navigator.GoToHomePage();
@@ -22,15 +22,24 @@ namespace addressbook_web_tests
 
         internal List<ContactData> GetContactsList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.GoToHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.XPath("(//tr[@name='entry'])"));
-            foreach (IWebElement element in elements)
+            if (contactCache == null)
             {
-                var td = element.FindElements(By.TagName("td"));
-                contacts.Add(new ContactData(td[2].Text, td[1].Text));
+                contactCache = new List<ContactData>();
+                manager.Navigator.GoToHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.XPath("(//tr[@name='entry'])"));
+                foreach (IWebElement element in elements)
+                {
+                    var td = element.FindElements(By.TagName("td"));
+                    contactCache.Add(new ContactData(td[2].Text, td[1].Text));
+                }
             }
-            return contacts;
+            return new List<ContactData>(contactCache);
+        }
+
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.XPath("(//tr[@name='entry'])")).Count;
+
         }
 
         public ContactHelper Modify(int index, ContactData contactData)
@@ -52,12 +61,14 @@ namespace addressbook_web_tests
         private ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
             return this;
         }
 
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("//input[@name='submit']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -79,6 +90,7 @@ namespace addressbook_web_tests
             manager.Navigator.GoToHomePage();
             SelectContact(index);
             RemoveContact();
+            manager.Navigator.GoToHomePage();
             return this;
         }
         public ContactHelper SelectContact(int index)
@@ -91,6 +103,7 @@ namespace addressbook_web_tests
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();
+            contactCache = null;
             return this;
         }
     }

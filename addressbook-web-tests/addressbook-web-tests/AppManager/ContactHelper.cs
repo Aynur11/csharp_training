@@ -30,7 +30,10 @@ namespace addressbook_web_tests
                 foreach (IWebElement element in elements)
                 {
                     var td = element.FindElements(By.TagName("td"));
-                    contactCache.Add(new ContactData(td[2].Text, td[1].Text));
+                    contactCache.Add(new ContactData(td[2].Text, td[1].Text)
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
                 }
             }
             return new List<ContactData>(contactCache);

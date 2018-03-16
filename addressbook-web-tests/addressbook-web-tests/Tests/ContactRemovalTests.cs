@@ -23,8 +23,14 @@ namespace addressbook_web_tests.Tests
             Assert.AreEqual(oldContacts.Count - 1, manager.Contacts.GetContactCount());
 
             List<ContactData> newContacts = manager.Contacts.GetContactsList();
+            ContactData toBeRemoved = oldContacts[1];
             oldContacts.RemoveAt(1);
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach(ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
     }
 }

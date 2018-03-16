@@ -22,6 +22,7 @@ namespace addressbook_web_tests.Tests
             newData.Footer = "modFooter";
 
             List<GroupData> oldGroups = manager.Groups.GetGroupList();
+            GroupData oldData = oldGroups[0];
             manager.Groups.Modify(1, newData);
 
             Assert.AreEqual(oldGroups.Count, manager.Groups.GetGroupCount());
@@ -32,6 +33,14 @@ namespace addressbook_web_tests.Tests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups.Count, newGroups.Count);
+
+            foreach(GroupData group in newGroups)
+            {
+                if (group.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData.Name, group.Name);
+                }
+            }
         }
     }
 }

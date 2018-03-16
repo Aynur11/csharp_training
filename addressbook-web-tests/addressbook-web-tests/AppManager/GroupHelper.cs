@@ -44,6 +44,12 @@ namespace addressbook_web_tests
             return this;
         }
 
+        public void CreateGroupIfNotExists(int index)
+        {
+            manager.Navigator.GoToGroupsPage();
+            while (!manager.Groups.IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]")))
+                manager.Groups.Create(new GroupData("NewGroupName"));
+        }
         public List<GroupData> GetGroupList()
         {
             if (groupChache == null)

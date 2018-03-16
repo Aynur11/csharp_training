@@ -52,6 +52,13 @@ namespace addressbook_web_tests
             return this;
         }
 
+        public void CreateContactIfNotExists(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            while (!manager.Contacts.IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]")))
+                manager.Contacts.Create(new ContactData("NewFirstname", "NewLastname"));
+        }
+
         public ContactHelper InitNewContact()
         {
            driver.FindElement(By.LinkText("add new")).Click();

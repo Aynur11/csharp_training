@@ -11,10 +11,9 @@ namespace addressbook_web_tests.Tests
         [SetUp]
         public void BeforeTest()
         {
-            manager.Navigator.GoToGroupsPage();
-            while (!manager.Groups.IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + 1 + "]")))
-                manager.Groups.Create(new GroupData("NewGroupName"));
+            manager.Groups.CreateGroupIfNotExists(1);
         }
+        
         [Test]
         public void GroupModoficationTest()
         {

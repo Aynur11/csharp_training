@@ -11,9 +11,7 @@ namespace addressbook_web_tests.Tests
         [SetUp]
         public void BeforeTest()
         {
-            manager.Navigator.GoToHomePage();
-            while (!manager.Contacts.IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + 1 + "]")))
-                manager.Contacts.Create(new ContactData("NewFirstname", "NewLastname"));
+            manager.Contacts.CreateContactIfNotExists(1);
         }
 
         [Test]

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenQA.Selenium;
-
+using System.Text.RegularExpressions;
 namespace addressbook_web_tests
 {
     public class ContactHelper : HelperBase
@@ -154,6 +154,14 @@ namespace addressbook_web_tests
             driver.SwitchTo().Alert().Accept();
             contactCache = null;
             return this;
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            manager.Navigator.GoToHomePage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text);
+            return Int32.Parse(m.Value);
         }
     }
 }

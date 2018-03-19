@@ -31,6 +31,10 @@ namespace addressbook_web_tests
             return Name.GetHashCode();
         }
 
+        public override string ToString()
+        {
+            return "name= " + Name + "\nheader= " + Header + "\nfooter= " + Footer;
+        }
         public int CompareTo(GroupData other)
         {
             if (Object.ReferenceEquals(other, null))

@@ -11,19 +11,19 @@ namespace addressbook_web_tests.Tests
         [SetUp]
         public void BeforeTest()
         {
-            manager.Contacts.CreateContactIfNotExists(2);
+            manager.Contacts.CreateContactIfNotExists(1);
         }
 
         [Test]
         public void ContactRemovalTest()
         {
             List<ContactData> oldContacts = manager.Contacts.GetContactsList();
-            manager.Contacts.Remove(2);
+            manager.Contacts.Remove(1);
 
             Assert.AreEqual(oldContacts.Count - 1, manager.Contacts.GetContactCount());
 
             List<ContactData> newContacts = manager.Contacts.GetContactsList();
-            oldContacts.RemoveAt(1);
+            oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
         }
     }

@@ -88,11 +88,9 @@ namespace addressbook_web_tests
 
             if(Lastname.CompareTo(other.Lastname) == 0)
             {
-                //return Lastname.CompareTo(other.Lastname);
                 return Firstname.CompareTo(other.Firstname);
             }
             return Lastname.CompareTo(other.Lastname);
-            //return -1;
         }
     }
 }

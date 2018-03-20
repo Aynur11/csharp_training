@@ -27,5 +27,10 @@ namespace addressbook_web_tests
             if (driver.Url != baseURL + "/addressbook/group.php" && !IsElementPresent(By.Name("new")))
             driver.FindElement(By.LinkText("groups")).Click();
         }
+
+        public void GoToDetailsPage(int index)
+        {
+            driver.FindElement(By.XPath("(//img[@title='Details'])[" + index + "]")).Click();
+        }
     }
 }

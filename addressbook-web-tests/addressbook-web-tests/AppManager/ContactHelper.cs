@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenQA.Selenium;
-
+using System.Text.RegularExpressions;
 namespace addressbook_web_tests
 {
     public class ContactHelper : HelperBase
@@ -20,6 +20,61 @@ namespace addressbook_web_tests
             return this;
         }
 
+        public ContactData GetContactInformationFromEditForm(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            InitContactModification(index);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
+                Email = email
+            };
+        }
+        public string ConvertContactDataToString(ContactData contact)
+        {
+            return contact.Firstname + " " + contact.Lastname
+                + "\r\n" + contact.Address + "\r\n\r\n"
+                + "H: " + contact.HomePhone + "\r\n" +
+                "M: " + contact.MobilePhone + "\r\n" +
+                "W: " + contact.WorkPhone + "\r\n" +
+                "\r\n" + contact.Email;
+        }
+
+        public string GetContactInformationFromDetails(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            manager.Navigator.GoToDetailsPage(index);
+            return driver.FindElement(By.XPath("//div[@id='content']")).Text;
+        }
+
+        public ContactData GetContactInformationFromTable(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index-1].FindElements(By.TagName("td"));
+            string firstName = cells[2].Text;
+            string lastName = cells[1].Text;
+            string address = cells[3].Text;
+            string allPhones = cells[5].Text;
+            string email = cells[4].Text;
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                Email = email,
+                AllPhones = allPhones
+            };
+        }
+
         internal List<ContactData> GetContactsList()
         {
             if (contactCache == null)
@@ -30,7 +85,10 @@ namespace addressbook_web_tests
                 foreach (IWebElement element in elements)
                 {
                     var td = element.FindElements(By.TagName("td"));
-                    contactCache.Add(new ContactData(td[2].Text, td[1].Text));
+                    contactCache.Add(new ContactData(td[2].Text, td[1].Text)
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
                 }
             }
             return new List<ContactData>(contactCache);
@@ -112,6 +170,14 @@ namespace addressbook_web_tests
             driver.SwitchTo().Alert().Accept();
             contactCache = null;
             return this;
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            manager.Navigator.GoToHomePage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text);
+            return Int32.Parse(m.Value);
         }
     }
 }

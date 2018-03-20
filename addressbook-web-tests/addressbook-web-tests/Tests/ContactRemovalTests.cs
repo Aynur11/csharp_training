@@ -11,20 +11,26 @@ namespace addressbook_web_tests.Tests
         [SetUp]
         public void BeforeTest()
         {
-            manager.Contacts.CreateContactIfNotExists(1);
+            manager.Contacts.CreateContactIfNotExists(2);
         }
 
         [Test]
         public void ContactRemovalTest()
         {
             List<ContactData> oldContacts = manager.Contacts.GetContactsList();
-            manager.Contacts.Remove(1);
+            manager.Contacts.Remove(2);
 
             Assert.AreEqual(oldContacts.Count - 1, manager.Contacts.GetContactCount());
 
             List<ContactData> newContacts = manager.Contacts.GetContactsList();
-            oldContacts.RemoveAt(0);
+            ContactData toBeRemoved = oldContacts[1];
+            oldContacts.RemoveAt(1);
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach(ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
     }
 }

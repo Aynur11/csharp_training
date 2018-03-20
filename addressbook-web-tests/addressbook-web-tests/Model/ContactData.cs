@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace addressbook_web_tests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string firstname;
+        /*
         private string middlename = "";
-        private string lastname;
         private string nickname = "";
         private string photo = @"";
         private string title = "";
@@ -30,34 +30,42 @@ namespace addressbook_web_tests
         private string address2 = "";
         private string home2 = "";
         private string notes = "";
+        */
+        private string allPhones;
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Id { get; set; }
+        public string  Address { get; set; }
+        public string HomePhone { get; set; }
+        public string MobilePhone { get; set; }
+        public string WorkPhone { get; set; }
+        public string Email { get; set; }
+        public string AllPhones
+        {
+            get
+            {
+                if (allPhones != null)
+                    return allPhones;
+                else
+                    return CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone).Trim();
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
+
+        private string CleanUp(string phone)
+        {
+            if (phone == null || phone == "")
+                return "";
+            return Regex.Replace(phone, "[ -()]", "") + "\r\n";
+        }
 
         public ContactData(string firstname, string lastname)
         {
-            this.firstname = firstname;
-            this.lastname = lastname;
-        }
-        public string Firstname
-        {
-            get
-            {
-                return firstname;
-            }
-            set
-            {
-                firstname = value;
-            }
-        }
-
-        public string Lastname
-        {
-            get
-            {
-                return lastname;
-            }
-            set
-            {
-                lastname = value;
-            }
+            Firstname = firstname;
+            Lastname = lastname;
         }
 
         public bool Equals(ContactData other)

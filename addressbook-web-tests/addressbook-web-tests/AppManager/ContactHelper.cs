@@ -31,6 +31,9 @@ namespace addressbook_web_tests
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
             string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+
 
             return new ContactData(firstName, lastName)
             {
@@ -38,7 +41,9 @@ namespace addressbook_web_tests
                 HomePhone = homePhone,
                 MobilePhone = mobilePhone,
                 WorkPhone = workPhone,
-                Email = email
+                Email = email,
+                Email2 = email2,
+                Email3 = email3
             };
         }
         public string ConvertContactDataToString(ContactData contact)
@@ -48,7 +53,9 @@ namespace addressbook_web_tests
                 + "H: " + contact.HomePhone + "\r\n" +
                 "M: " + contact.MobilePhone + "\r\n" +
                 "W: " + contact.WorkPhone + "\r\n" +
-                "\r\n" + contact.Email;
+                "\r\n" + contact.Email + "\r\n" +
+                "\r\n" + contact.Email2 + "\r\n" +
+                "\r\n" + contact.Email3;
         }
 
         public string GetContactInformationFromDetails(int index)
@@ -66,11 +73,13 @@ namespace addressbook_web_tests
             string lastName = cells[1].Text;
             string address = cells[3].Text;
             string allPhones = cells[5].Text;
-            string email = cells[4].Text;
+            string allEmails = cells[4].Text;
+
+
             return new ContactData(firstName, lastName)
             {
                 Address = address,
-                Email = email,
+                AllEmails = allEmails,
                 AllPhones = allPhones
             };
         }

@@ -23,7 +23,9 @@ namespace addressbook_web_tests
                     HomePhone = GenerateRandomString(100),
                     MobilePhone = GenerateRandomString(100),
                     WorkPhone = GenerateRandomString(100),
-                    Email = GenerateRandomString(100)
+                    Email = GenerateRandomString(100),
+                    //Email2 = GenerateRandomString(100),
+                    //Email3 = GenerateRandomString(100)
                 });
             }
             return contacts;

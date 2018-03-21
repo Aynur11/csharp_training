@@ -19,8 +19,9 @@ namespace addressbook_web_tests.Tests
             Assert.AreEqual(fromTable, fromForm);
             Assert.AreEqual(fromTable.Address, fromForm.Address);
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
-        }
+            Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
 
+        }
 
         [Test]
         public void ContactDetailsComplianceTest()

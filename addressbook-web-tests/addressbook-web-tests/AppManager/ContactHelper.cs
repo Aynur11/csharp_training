@@ -59,16 +59,57 @@ namespace addressbook_web_tests
         {
             string total = "";
             if (contact.Firstname != null && contact.Firstname != "")
-                total += contact.Firstname + " ";
+            {
+                total += contact.Firstname;
+                if (contact.Lastname != null && contact.Lastname != "")
+                    total += " ";
+                else
+                {
+                    if ((contact.Address != null && contact.Address != "")
+                        || (contact.AllPhonesWithPrefix != null && contact.AllPhonesWithPrefix != "")
+                        || (contact.AllEmails != null && contact.AllEmails != ""))
+                        total += "\r\n";
+                }
+            }
+
             if (contact.Lastname != null && contact.Lastname != "")
-                total += contact.Lastname + "\r\n";
+            {
+                total += contact.Lastname;
+                if ((contact.Address != null && contact.Address != "")
+                    || (contact.AllPhonesWithPrefix != null && contact.AllPhonesWithPrefix != "")
+                    || (contact.AllEmails != null && contact.AllEmails != ""))
+                    total += "\r\n";
+            }
+
             if (contact.Address != null && contact.Address != "")
+            {
                 total += contact.Address;
+                if ((contact.AllPhonesWithPrefix != null && contact.AllPhonesWithPrefix != "")
+                        || (contact.AllEmails != null && contact.AllEmails != ""))
+                    total += "\r\n";
+            }
+
             if (contact.AllPhonesWithPrefix != null && contact.AllPhonesWithPrefix != "")
-                total += "\r\n\r\n" + contact.AllPhonesWithPrefix + "\r\n";
+            {
+                if ((contact.Firstname != null && contact.Firstname != "")
+                    || (contact.Lastname != null && contact.Lastname != "")
+                    || (contact.Address != null && contact.Address != ""))
+                    total += "\r\n";
+                total += contact.AllPhonesWithPrefix;
+                if (contact.AllEmails != null && contact.AllEmails != "")
+                    total += "\r\n";
+                else total = total.Trim();
+            }
 
             if (contact.AllEmails != null && contact.AllEmails != "")
-                total += contact.AllEmails;
+            {
+                if ((contact.Firstname != null && contact.Firstname != "")
+                    || (contact.Lastname != null && contact.Lastname != "")
+                    || (contact.Address != null && contact.Address != "")
+                    || (contact.AllPhonesWithPrefix != null && contact.AllPhonesWithPrefix != ""))
+                    total += "\r\n";
+                total += contact.AllEmails.Trim();
+            }
             return total;
         }
         public string GetContactInformationFromDetails(int index)
@@ -81,7 +122,7 @@ namespace addressbook_web_tests
         public ContactData GetContactInformationFromTable(int index)
         {
             manager.Navigator.GoToHomePage();
-            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index-1].FindElements(By.TagName("td"));
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index - 1].FindElements(By.TagName("td"));
             string firstName = cells[2].Text;
             string lastName = cells[1].Text;
             string address = cells[3].Text;
@@ -141,10 +182,10 @@ namespace addressbook_web_tests
 
         public ContactHelper InitNewContact()
         {
-           driver.FindElement(By.LinkText("add new")).Click();
+            driver.FindElement(By.LinkText("add new")).Click();
             return this;
         }
-        
+
         private ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
@@ -171,7 +212,7 @@ namespace addressbook_web_tests
             Type(By.Name("lastname"), entryData.Lastname);
             return this;
         }
-        
+
         public ContactHelper Remove(int index)
         {
             manager.Navigator.GoToHomePage();

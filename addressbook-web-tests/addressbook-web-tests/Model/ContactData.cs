@@ -107,7 +107,6 @@ namespace addressbook_web_tests
             if (phone == null || phone == "")
                 return "";
             return Regex.Replace(phone, "[-()]", "") + "\r\n";
-
         }
 
         public ContactData(string firstname, string lastname)

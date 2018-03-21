@@ -48,16 +48,29 @@ namespace addressbook_web_tests
         }
         public string ConvertContactDataToString(ContactData contact)
         {
-            return contact.Firstname + " " + contact.Lastname
-                + "\r\n" + contact.Address + "\r\n\r\n"
-                + "H: " + contact.HomePhone + "\r\n" +
-                "M: " + contact.MobilePhone + "\r\n" +
-                "W: " + contact.WorkPhone + "\r\n" +
-                "\r\n" + contact.Email + "\r\n" +
-                "\r\n" + contact.Email2 + "\r\n" +
-                "\r\n" + contact.Email3;
+            //return contact.Firstname + " " + contact.Lastname
+            //    + "\r\n" + contact.Address + "\r\n\r\n"
+            //    + contact.AllPhonesWithPrefix +
+            //    "\r\n\r\n" + contact.AllEmails;
+            return GetContactString(contact);
         }
 
+        public string GetContactString(ContactData contact)
+        {
+            string total = "";
+            if (contact.Firstname != null && contact.Firstname != "")
+                total += contact.Firstname + " ";
+            if (contact.Lastname != null && contact.Lastname != "")
+                total += contact.Lastname + "\r\n";
+            if (contact.Address != null && contact.Address != "")
+                total += contact.Address;
+            if (contact.AllPhonesWithPrefix != null && contact.AllPhonesWithPrefix != "")
+                total += "\r\n\r\n" + contact.AllPhonesWithPrefix + "\r\n";
+
+            if (contact.AllEmails != null && contact.AllEmails != "")
+                total += contact.AllEmails;
+            return total;
+        }
         public string GetContactInformationFromDetails(int index)
         {
             manager.Navigator.GoToHomePage();

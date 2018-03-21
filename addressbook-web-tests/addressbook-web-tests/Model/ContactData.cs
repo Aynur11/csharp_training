@@ -65,6 +65,7 @@ namespace addressbook_web_tests
                     return allPhones;
                 else
                     return CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone).Trim();
+
             }
             set
             {
@@ -72,11 +73,41 @@ namespace addressbook_web_tests
             }
         }
 
+        public string AllPhonesWithPrefix
+        {
+            get
+            {
+                if (allPhones != null)
+                    return allPhones;
+                else
+                    return SetPhonePrefix(CleanUp(HomePhone), 0) + SetPhonePrefix(CleanUp(MobilePhone), 1) + SetPhonePrefix(CleanUp(WorkPhone).Trim(), 2);
+
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
+
+        private string SetPhonePrefix(string phone, int index)
+        {
+            if (phone == null || phone == "")
+                return "";
+            else
+            {
+                if (index == 0) return "H: " + phone;
+                if (index == 1) return "M: " + phone;
+                if (index == 2) return "W: " + phone;
+            }
+            return "error";
+        }
+
         private string CleanUp(string phone)
         {
             if (phone == null || phone == "")
                 return "";
             return Regex.Replace(phone, "[-()]", "") + "\r\n";
+
         }
 
         public ContactData(string firstname, string lastname)

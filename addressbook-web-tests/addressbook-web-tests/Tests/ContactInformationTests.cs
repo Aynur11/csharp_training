@@ -25,8 +25,8 @@ namespace addressbook_web_tests.Tests
         [Test]
         public void ContactDetailsComplianceTest()
         {
-            ContactData fromForm = manager.Contacts.GetContactInformationFromEditForm(2);
-            string fromDetails = manager.Contacts.GetContactInformationFromDetails(2);
+            ContactData fromForm = manager.Contacts.GetContactInformationFromEditForm(1);
+            string fromDetails = manager.Contacts.GetContactInformationFromDetails(1);
             string sFromForm = manager.Contacts.ConvertContactDataToString(fromForm);
             Assert.AreEqual(fromDetails, sFromForm);
 

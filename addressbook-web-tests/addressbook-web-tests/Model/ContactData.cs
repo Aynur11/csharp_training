@@ -80,13 +80,19 @@ namespace addressbook_web_tests
                 if (allPhones != null)
                     return allPhones;
                 else
-                    return SetPhonePrefix(CleanUp(HomePhone), 0) + SetPhonePrefix(CleanUp(MobilePhone), 1) + SetPhonePrefix(CleanUp(WorkPhone).Trim(), 2);
+                    return SetPhonePrefix(DoLinefeed(HomePhone), 0) + SetPhonePrefix(DoLinefeed(MobilePhone), 1) + SetPhonePrefix(DoLinefeed(WorkPhone).Trim(), 2);
 
             }
             set
             {
                 allPhones = value;
             }
+        }
+        private String DoLinefeed(string line)
+        {
+            if (line == null || line == "")
+                return "";
+            return line + "\r\n";
         }
 
         private string SetPhonePrefix(string phone, int index)

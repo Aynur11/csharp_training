@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Text;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.IO;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
@@ -30,7 +31,13 @@ namespace addressbook_web_tests
             }
             return contacts;
         }
-        [Test, TestCaseSource("RandomContactDataProvider")]
+
+        public static IEnumerable<ContactData> ContactDataFromXmlFile()
+        {
+            return (List<ContactData>) new XmlSerializer(typeof(List<ContactData>)).Deserialize(new StreamReader(@"contacts.xml"));
+        }
+
+        [Test, TestCaseSource("ContactDataFromXmlFile")]
         public void ContactCreationTest(ContactData contact)
         {
             List<ContactData> oldContacts = manager.Contacts.GetContactsList();

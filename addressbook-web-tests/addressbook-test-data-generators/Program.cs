@@ -66,11 +66,11 @@ namespace addressbook_test_data_generators
                 {
                     contacts.Add(new ContactData(TestBase.GenerateRandomString(10), TestBase.GenerateRandomString(10))
                     {
-                        Address = TestBase.GenerateRandomString(100),
-                        HomePhone = TestBase.GenerateRandomString(100),
-                        MobilePhone = TestBase.GenerateRandomString(100),
-                        WorkPhone = TestBase.GenerateRandomString(100),
-                        Email = TestBase.GenerateRandomString(100),
+                        Address = TestBase.GenerateRandomString(10),
+                        HomePhone = TestBase.GenerateRandomString(10),
+                        MobilePhone = TestBase.GenerateRandomString(10),
+                        WorkPhone = TestBase.GenerateRandomString(10),
+                        Email = TestBase.GenerateRandomString(10),
                     });
                 }
                 StreamWriter writer = new StreamWriter(filename);

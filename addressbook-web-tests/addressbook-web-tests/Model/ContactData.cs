@@ -9,6 +9,10 @@ namespace addressbook_web_tests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
+        public ContactData()
+        {
+
+        }
         /*
         private string middlename = "";
         private string nickname = "";

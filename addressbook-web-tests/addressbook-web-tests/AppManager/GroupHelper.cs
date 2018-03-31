@@ -25,8 +25,18 @@ namespace addressbook_web_tests
         public GroupHelper Modify(int index, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            //CreateGroupIfNotExists(index);
             SelectGroup(index);
+            InitGroupModofication();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper Modify(GroupData group, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(group.Id);
             InitGroupModofication();
             FillGroupForm(newData);
             SubmitGroupModification();

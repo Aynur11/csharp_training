@@ -15,19 +15,19 @@ namespace addressbook_web_tests.Tests
         }
         
         [Test]
-        public void GroupModoficationTest()
+        public void GroupModificationTest()
         {
             GroupData newData = new GroupData("modifiedname");
             newData.Header = null;
             newData.Footer = "modFooter";
 
-            List<GroupData> oldGroups = manager.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             GroupData oldData = oldGroups[0];
-            manager.Groups.Modify(1, newData);
+            manager.Groups.Modify(oldData, newData);
 
             Assert.AreEqual(oldGroups.Count, manager.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = manager.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups[0].Name = newData.Name;
 
             oldGroups.Sort();

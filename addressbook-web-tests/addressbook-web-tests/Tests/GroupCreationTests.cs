@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -13,7 +14,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
@@ -58,39 +59,39 @@ namespace addressbook_web_tests
                 File.ReadAllText(@"groups.json"));
         }
 
-        public static IEnumerable<GroupData> GroupDataFromExcelFile()
-        {
-            List<GroupData> groups = new List<GroupData>();
-            Excel.Application app = new Excel.Application();
-            app.Visible = true;
-            Excel.Workbook wb = app.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), @"groups.xlsx"));
-            Excel.Worksheet sheet = app.ActiveSheet;
-            Excel.Range range = sheet.UsedRange;
-            for (int i = 1; i <= range.Rows.Count; i++)
-            {
-                groups.Add(new GroupData()
-                {
-                    Name = range.Cells[i, 1].Value,
-                    Header = range.Cells[i, 2].Value,
-                    Footer = range.Cells[i, 3].Value
-                });
-            }
-            wb.Close();
-            app.Visible = false;
-            app.Quit();
-            return groups;
-        }
+        //public static IEnumerable<GroupData> GroupDataFromExcelFile()
+        //{
+        //    List<GroupData> groups = new List<GroupData>();
+        //    Excel.Application app = new Excel.Application();
+        //    app.Visible = false;
+        //    Excel.Workbook wb = app.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), @"groups.xlsx"));
+        //    Excel.Worksheet sheet = app.ActiveSheet;
+        //    Excel.Range range = sheet.UsedRange;
+        //    for (int i = 1; i <= range.Rows.Count; i++)
+        //    {
+        //        groups.Add(new GroupData()
+        //        {
+        //            Name = range.Cells[i, 1].Value,
+        //            Header = range.Cells[i, 2].Value,
+        //            Footer = range.Cells[i, 3].Value
+        //        });
+        //    }
+        //    wb.Close();
+        //    app.Visible = false;
+        //    app.Quit();
+        //    return groups;
+        //}
 
-        [Test, TestCaseSource("GroupDataFromExcelFile")]
+        [Test, TestCaseSource("GroupDataFromXmlFile")]
         public void GroupCreationTest(GroupData group)
         {
-            
-            List<GroupData> oldGroups = manager.Groups.GetGroupList();
+
+            List<GroupData> oldGroups = GroupData.GetAll();
             manager.Groups.Create(group);
             
             Assert.AreEqual(oldGroups.Count + 1, manager.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = manager.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
 
             oldGroups.Sort();
@@ -116,6 +117,20 @@ namespace addressbook_web_tests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+        }
+
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUI = manager.Groups.GetGroupList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<GroupData> fromDB = GroupData.GetAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
         }
     }
 }

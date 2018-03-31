@@ -98,7 +98,7 @@ namespace addressbook_test_data_generators
         static void WriteGroupsToExcelFile(List<GroupData> groups, string filename)
         {
             Excel.Application app = new Excel.Application();
-            app.Visible = true;
+            app.Visible = false;
             Excel.Workbook wb = app.Workbooks.Add();
             Excel.Worksheet sheet = wb.ActiveSheet;
             sheet.Cells[1, 1] = "test";

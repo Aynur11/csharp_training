@@ -37,11 +37,20 @@ namespace addressbook_web_tests
         public GroupHelper Remove(int index)
         {
             manager.Navigator.GoToGroupsPage();
-            //CreateGroupIfNotExists(index);
             SelectGroup(index);
-            RemoveGroup(index);
+            RemoveGroup();
             ReturnToGroupsPage();
             return this;
+        }
+
+        public GroupHelper Remove(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(group.Id);
+            RemoveGroup();
+            ReturnToGroupsPage();
+            return this;
+
         }
 
         public void CreateGroupIfNotExists(int index)
@@ -119,7 +128,7 @@ namespace addressbook_web_tests
             return this;
         }
 
-        public GroupHelper RemoveGroup(int index)
+        public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.XPath("(//input[@name='delete'])")).Click();
             groupChache = null;
@@ -129,6 +138,12 @@ namespace addressbook_web_tests
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            return this;
+        }
+
+        public GroupHelper SelectGroup(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
             return this;
         }
     }

@@ -40,10 +40,10 @@ namespace addressbook_web_tests
         [Test, TestCaseSource("ContactDataFromXmlFile")]
         public void ContactCreationTest(ContactData contact)
         {
-            List<ContactData> oldContacts = manager.Contacts.GetContactsList();
-            //ContactData entryData = new ContactData("gIvan", "glumDIvanov");
+            List<ContactData> oldContacts = ContactData.GetAll();
+
             manager.Contacts.Create(contact);
-            List<ContactData> newContacts = manager.Contacts.GetContactsList();
+            List<ContactData> newContacts = ContactData.GetAll();
 
             Assert.AreEqual(oldContacts.Count + 1, manager.Contacts.GetContactCount());
 

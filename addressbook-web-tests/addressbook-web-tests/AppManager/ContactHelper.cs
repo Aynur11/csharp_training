@@ -1,7 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+
 namespace addressbook_web_tests
 {
     public class ContactHelper : HelperBase
@@ -18,6 +21,50 @@ namespace addressbook_web_tests
             SubmitContactCreation();
             manager.Navigator.GoToHomePage();
             return this;
+        }
+
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        public void RemoveContactFromGroup(ContactData contact)
+        {
+            manager.Navigator.GoToHomePage();
+            manager.Navigator.GoToDetailsPage(contact.Id);
+            if (manager.Navigator.GotoGroupMemberPage() == true)
+            {
+                SelectContact(contact.Id);
+                RemoveContactFromGroup();
+            }
+
+
+        }
+
+        private void RemoveContactFromGroup()
+        {
+            driver.FindElement(By.XPath("(//input[@name='remove'])")).Click();
+        }
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        private void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
         }
 
         public ContactData GetContactInformationFromEditForm(int index)

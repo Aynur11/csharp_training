@@ -4,6 +4,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace addressbook_web_tests
 {
@@ -12,6 +13,17 @@ namespace addressbook_web_tests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
+
+        public void AddContactToGroupIfNotIncludedInGroup()
+        {
+            ContactData contact = ContactData.GetAll()[0];
+            List<GroupData> OldConsistGroup = GroupData.GetContactGroupName(contact);
+            if (OldConsistGroup.Capacity == 0)
+            {
+                manager.Contacts.AddContactToGroup(contact, GroupData.GetAll()[0]);
+            }
+        }
+
         private List<ContactData> contactCache = null;
         public ContactHelper Create(ContactData data)
         {
@@ -23,11 +35,27 @@ namespace addressbook_web_tests
             return this;
         }
 
+        public void IfContactWithoutGroupsCreateNew(int index)
+        {
+            GroupData group = GroupData.GetAll()[index];
+            List<ContactData> contactsWithoutGroups = ContactData.GetAll().Except(group.GetContacts()).ToList();
+            if (contactsWithoutGroups.Count == 0)
+            {
+                manager.Contacts.Create(new ContactData()
+                {
+                    Lastname = "lastn1",
+                    Firstname = "fname1"
+                });
+            }
+        }
+
         public void AddContactToGroup(ContactData contact, GroupData group)
         {
             manager.Navigator.GoToHomePage();
             ClearGroupFilter();
             SelectContact(contact.Id);
+
+
             SelectGroupToAdd(group.Name);
             CommitAddingContactToGroup();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
@@ -95,10 +123,6 @@ namespace addressbook_web_tests
         }
         public string ConvertContactDataToString(ContactData contact)
         {
-            //return contact.Firstname + " " + contact.Lastname
-            //    + "\r\n" + contact.Address + "\r\n\r\n"
-            //    + contact.AllPhonesWithPrefix +
-            //    "\r\n\r\n" + contact.AllEmails;
             return GetContactString(contact);
         }
 

@@ -13,6 +13,7 @@ namespace addressbook_web_tests.Tests
         [SetUp]
         public void BeforeTest()
         {
+            manager.Groups.CreateGroupIfNotExists(1);
             manager.Contacts.AddContactToGroupIfNotIncludedInGroup();
         }
 
